@@ -189,6 +189,17 @@ package ara_pkg;
     vd_scalar = op inside {[VCPOP:VFIRST]};
   endfunction : vd_scalar
 
+  function automatic logic masku_needs_alu(ara_op_e op);
+    masku_needs_alu = op inside {
+      [VMSEQ:VMSGT],       // Integer comparison
+      [VMADC:VMSIF],       // Integer carry and mask to mask
+      VIOTA,               // Mask to non-mask excluding VID which doesn't need VALU
+      [VCPOP:VFIRST],      // Mask to scalar
+      [VMANDNOT:VMXNOR],   // Mask operations
+      [VRGATHER:VCOMPRESS] // Complex permutations
+    };
+  endfunction : masku_needs_alu
+
   typedef enum logic [1:0] {
     NO_RED,
     ALU_RED,
