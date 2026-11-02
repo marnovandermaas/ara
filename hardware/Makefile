@@ -255,7 +255,7 @@ dpi: $(buildpath)/$(dpi_library)/ara_dpi.so
 
 $(buildpath)/$(dpi_library)/%.o: tb/dpi/%.cc
 	mkdir -p $(buildpath)/$(dpi_library)
-	$(CXX) -shared -fPIC -std=c++11 -Bsymbolic -c $< -I$(VERILATOR_INCLUDE) -I$(INSTALL_DIR)/riscv-isa-sim/include -o $@
+	$(CXX) -shared -fPIC -std=c++17 -Bsymbolic -c $< -I$(VERILATOR_INCLUDE) -I$(INSTALL_DIR)/riscv-isa-sim/include -o $@
 
 $(buildpath)/$(dpi_library)/ara_dpi.so: $(dpi)
 	mkdir -p $(buildpath)/$(dpi_library)
