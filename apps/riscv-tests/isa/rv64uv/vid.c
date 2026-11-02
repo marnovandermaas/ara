@@ -32,11 +32,33 @@ void TEST_CASE2() {
   VCMP_U8(3, v1, 0, 0, 2, 0, 4, 0, 6, 0);
 }
 
+// Multiple VID instructions in a row.
+void TEST_CASE3() {
+  VSET(16, e8, m1);
+  VCLEAR(v1);
+  VCLEAR(v2);
+  __asm__ volatile("vid.v v1");
+  __asm__ volatile("vid.v v2");
+  __asm__ volatile("vid.v v3");
+  __asm__ volatile("vid.v v4");
+  __asm__ volatile("vid.v v5");
+  __asm__ volatile("vid.v v6");
+  __asm__ volatile("vid.v v7");
+  __asm__ volatile("vid.v v8");
+  __asm__ volatile("vadd.vv v1, v1, v8");
+  __asm__ volatile("vadd.vv v2, v2, v1");
+  __asm__ volatile("vxor.vv v3, v3, v3");
+  VCMP_U8(4, v1, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30);
+  VCMP_U8(5, v2, 0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45);
+  VCMP_U8(6, v3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+}
+
 int main(void) {
   INIT_CHECK();
   enable_vec();
   enable_fp();
   TEST_CASE1();
   TEST_CASE2();
+  TEST_CASE3();
   EXIT_CHECK();
 }
